@@ -1,0 +1,75 @@
+# Copyright 2026 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+blueprint_name: grpo-gke-train
+
+vars:
+  project_id: "your-project-id" # REPLACE WITH YOUR PROJECT ID
+  deployment_name: "deepseek-grpo"
+  region: "us-central1"
+  zone: "us-central1-a"
+
+deployment_groups:
+- group: primary
+  modules:
+  - id: network
+    source: modules/network/vpc
+    settings:
+      deployment_name: $(vars.deployment_name)
+
+  - id: gke-cluster
+    source: modules/compute/gke-cluster
+    use: [network]
+    settings:
+      deployment_name: $(vars.deployment_name)
+      location: $(vars.region)
+      alternative_locations: [$(vars.zone)]
+      # Enable GCS Fuse CSI Driver for mounting buckets
+      enable_gcs_fuse_csi_driver: true
+      # Enable workload identity for secure GCS access
+      enable_private_nodes: true
+
+  - id: gke-pool-cpu
+    source: modules/compute/gke-node-pool
+    use: [gke-cluster]
+    settings:
+      name: "cpu-pool"
+      machine_type: "e2-standard-4"
+      initial_node_count: 2
+      autoscaling:
+        min_nodes: 1
+        max_nodes: 4
+
+  - id: gke-pool-gpu
+    source: modules/compute/gke-node-pool
+    use: [gke-cluster]
+    settings:
+      name: "gpu-pool"
+      # Using G2 with L4 GPUs for cost-effective distiled training
+      # Alternative: a2-highgpu-1g (A100) or a3-highgpu-8g (8x H100)
+      machine_type: "g2-standard-48" # 4x NVIDIA L4 GPUs
+      initial_node_count: 1
+      autoscaling:
+        min_nodes: 0
+        max_nodes: 3
+      accelerators:
+        - type: "nvidia-l4"
+          count: 4
+      # GKE automatically manages drivers if configured on image type
+      image_type: "COS_CONTAINERD"
+      # Node affinity or taints for GPUs usually handled by GKE/Toolkit
+      taints:
+        - key: "nvidia.com/gpu"
+          value: "present"
+          effect: "NO_SCHEDULE"

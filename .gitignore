@@ -1,0 +1,20 @@
+# Environments
+.venv/
+venv/
+env/
+__pycache__/
+
+# OS files
+.DS_Store
+
+# Databases
+*.db
+*.sqlite3
+
+# Testing
+.pytest_cache/
+
+# Large model weights (if cached locally inside folder instead of ~/.cache)
+models/
+*.bin
+*.pt

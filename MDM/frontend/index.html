@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer MDM Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="logo">
+                <span class="icon">💎</span> MDM Master
+            </div>
+            <nav>
+                <a href="#" class="nav-item active">Dashboard</a>
+                <a href="#sources-section" class="nav-item">Sources</a>
+                <a href="#raw-section" class="nav-item">Ingest Stream</a>
+                <a href="#golden-section" class="nav-item">Golden Records</a>
+            </nav>
+        </aside>
+
+        <!-- Main Content Core -->
+        <main class="main-content">
+            <header class="top-bar">
+                <h1>Customer Data Framework</h1>
+                <div class="header-controls">
+                    <div class="config-group">
+                        <label for="api_url">API URL:</label>
+                        <input type="text" id="api_url" value="http://localhost:8000/api/v1" class="api-input">
+                    </div>
+                    <div class="status">
+                        <span class="dot green" id="status-dot"></span> <span id="status-text">Connected</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Dashboard Control Grid -->
+            <div class="grid-container">
+                
+                <!-- 📥 Ingestion Form Panel -->
+                <section id="raw-section" class="card form-card">
+                    <h2>📥 Ingest Raw Customer</h2>
+                    <form id="ingest-form">
+                        <div class="form-group">
+                            <label for="source_select">Source System</label>
+                            <select id="source_select" required>
+                                <option value="">-- Load Sources First --</option>
+                            </select>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="first_name">First Name</label>
+                                <input type="text" id="first_name" placeholder="John" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="last_name">Last Name</label>
+                                <input type="text" id="last_name" placeholder="Doe" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" placeholder="john@example.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <input type="text" id="phone" placeholder="+1-555-1234">
+                        </div>
+                        <button type="submit" class="btn primary-btn">Process Ingestion</button>
+                    </form>
+                </section>
+
+                <!-- 📊 Sources Reliability Grid + Create Form -->
+                <section id="sources-section" class="card table-card">
+                    <div class="card-header border-bottom">
+                        <h2>📊 Source Systems</h2>
+                        <button id="refresh-sources" class="btn btn-sm">Refresh</button>
+                    </div>
+                    
+                    <!-- Quick Create Source -->
+                    <div class="sub-section">
+                        <h4>➕ Create Source</h4>
+                        <form id="create-source-form" class="inline-form">
+                            <input type="text" id="src_name" placeholder="Salesforce" required style="width: 40%">
+                            <input type="number" id="src_score" placeholder="0.9" step="0.1" min="0" max="1" required style="width: 25%">
+                            <button type="submit" class="btn btn-sm primary-btn" style="width: 30%">Add</button>
+                        </form>
+                    </div>
+
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Source Name</th>
+                                    <th>Reliability Score</th>
+                                    <th>Source ID</th>
+                                </tr>
+                            </thead>
+                            <tbody id="sources-table-body">
+                                <tr><td colspan="3" class="loading">Loading...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+
+            <!-- 👑 Golden Records Consolidated View -->
+            <section id="golden-section" class="card table-card full-span">
+                <div class="card-header">
+                    <h2>👑 Golden Master Records</h2>
+                    <button id="refresh-golden" class="btn btn-sm">Refresh List</button>
+                </div>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Golden ID</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Confidence</th>
+                                <th>Updated At</th>
+                            </tr>
+                        </thead>
+                        <tbody id="golden-table-body">
+                            <tr><td colspan="6" class="loading">No records created found.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- 📝 Console logs for debugging endpoint outputs -->
+            <section class="card console-card">
+                <h2>📝 Live Stream Ingestion Logs</h2>
+                <div id="log-console" class="console">
+                    <div class="log-item system">> MDM dashboard loaded accurately on setup loop.</div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Endpoint integration script -->
+    <script src="app.js"></script>
+</body>
+</html>
