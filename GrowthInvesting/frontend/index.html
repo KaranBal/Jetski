@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Growth Traded - Premium Portfolio Evaluator for Growth Developers seeking outsized returns. Combine Rule of 40, Gross Margins, and Product Moats.">
+    
+    <title>Growth Traded | Portfolio Intelligence for Growth Developers</title>
+    
+    <!-- Modern Typography Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cabinet+Grotesk:wght@800&family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Standard Custom CSS Link -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="glow-backdrop"></div>
+    <div class="glow-orb" id="orb-1"></div>
+    <div class="glow-orb" id="orb-2"></div>
+    <div class="glow-orb" id="orb-3"></div>
+
+    <div class="container">
+        <!-- 🧭 Primary Navigation -->
+        <header class="navbar">
+            <div class="logo">
+                <div class="logo-mark">🚀</div>
+                <div class="logo-text">Growth<span>Investing</span></div>
+            </div>
+            <div class="nav-links">
+                <a href="#dashboard" class="nav-link active">Dashboard</a>
+                <a href="#analyzer" class="nav-link">Evaluation Node</a>
+                <a href="#metrics" class="nav-link">Scoring Thesis</a>
+            </div>
+            <div class="header-status">
+                <span class="status-dot green"></span> Simulating Engine Terminal Active
+            </div>
+        </header>
+
+        <main>
+            <!-- 📊 Main Dashboard View -->
+            <section id="dashboard" class="section active">
+                <h1 class="main-title">Alpha Growth Terminal</h1>
+                <p class="subtitle">Evaluate your portfolio through the lens of a **Growth Developer** checking for massive moats.</p>
+
+                <div class="dashboard-grid">
+                    <!-- Portfolio Stats Glass Card -->
+                    <div class="card glass stats-card">
+                        <h2>📈 Portfolio Overview</h2>
+                        <div class="stats-grid">
+                            <div class="stat-item">
+                                <span class="stat-label">Total Allocated</span>
+                                <span class="stat-value" id="portfolio-total">$0.00</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Weighted Rule of 40</span>
+                                <span class="stat-value" id="portfolio-rule40">0%</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Conviction Level</span>
+                                <span class="stat-value" id="portfolio-conviction">N/A</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bulk Ingest Glass Card -->
+                    <div class="card glass ingest-card">
+                        <h2>📥 Bulk Ticker Ingestion Console</h2>
+                        <form id="portfolio-form" class="bulk-form" style="display: flex; flex-direction: column; gap: 16px;">
+                            <div class="form-group">
+                                <label for="paste-list">Paste Portfolio Tickers (Ticker, Amount, Rationale per line)</label>
+                                <textarea id="paste-list" placeholder="NVDA, 10000, AI Leader&#10;PLTR, 5000, Enterprise Data moat&#10;SNOW, 2500" style="background: rgba(0, 0, 0, 0.2); border: 1px solid var(--border-color); padding: 14px 16px; border-radius: 12px; color: var(--text-primary); font-size: 1rem; outline: none; transition: border-color 0.2s; height: 160px; resize: none;"></textarea>
+                            </div>
+                            <button type="submit" class="btn primary-btn">Launch Evaluation Engine</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- 📊 Dual Ingest Section (Pasting Link OR Upload File) -->
+                <div class="card glass ingest-card full-span" style="margin-top: 24px; padding: 24px;">
+                    <h2>📤 Import Portfolio Tickers (Choose one)</h2>
+                    
+                    <div style="display: flex; gap: 32px; flex-wrap: wrap;">
+                        <!-- Option A: Desktop File Upload -->
+                        <div style="flex: 1; min-width: 300px; border-right: 1px solid var(--border-color); padding-right: 24px; display: flex; flex-direction: column; justify-content: space-between;">
+                            <div>
+                                <h3>📂 Option 1: Upload CSV from Desktop</h3>
+                                <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 12px;">Double-click to select a standard `portfolio.csv` file from your device local hard drive.</p>
+                                <form id="upload-form">
+                                    <div class="form-group">
+                                        <label for="portfolio-file">Select File</label>
+                                        <input type="file" id="portfolio-file" accept=".csv" required style="padding: 10px; background: rgba(0,0,0,0.2); border: 1px solid var(--border-color); border-radius: 12px; color: var(--text-primary); width: 100%;">
+                                    </div>
+                                    <button type="submit" class="btn primary-btn" style="margin-top: 12px; width: 100%;">Upload & Scan</button>
+                                </form>
+                            </div>
+                            <div id="upload-status" class="status-box" style="margin-top: 15px; font-size: 0.85rem; color: var(--text-secondary);"></div>
+                        </div>
+
+                        <!-- Option B: Google Sheet Public Link -->
+                        <div style="flex: 1; min-width: 300px;">
+                            <h3>📋 Option 2: Paste Google Sheet Link</h3>
+                            <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 12px;">Paste a public export link (must be reachable without logins).</p>
+                            <form id="csv-form">
+                                <div class="form-group">
+                                    <label for="csv-url">Google Sheet URL</label>
+                                    <input type="url" id="csv-url" placeholder="https://docs.google.com/spreadsheets/d/.../export?format=csv" required style="width: 100%;">
+                                </div>
+                                <button type="submit" class="btn primary-btn" style="margin-top: 12px; width: 100%;">Pull & Scan</button>
+                            </form>
+                            <div id="csv-status" class="status-box" style="margin-top: 15px; font-size: 0.85rem; color: var(--text-secondary);"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 🧪 Results & Matrix Visualizer View -->
+            <section id="analyzer" class="section active">
+                <div class="section-header">
+                    <h2>🧬 Conviction Analysis Console</h2>
+                    <button class="btn btn-sm btn-outline" id="clear-all">Clear All Positions</button>
+                </div>
+
+                <div class="analysis-grid" id="results-container">
+                    <!-- Dynamic analysis cards appear here -->
+                    <div class="empty-state">
+                        <div class="empty-icon">📈</div>
+                        <h3>No position evaluated yet</h3>
+                        <p>Feed a ticker (try **NVDA**, **CRWD**, or **SNOW**) to start the deep engine.</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Application Script Logic -->
+    <script src="app.js"></script>
+</body>
+</html>

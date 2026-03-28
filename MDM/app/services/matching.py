@@ -26,28 +26,58 @@ def match_and_merge_customer(db: Session, raw_id: str) -> str:
     
     best_golden_record = None
     highest_match_score = 0.0
-    MATCH_THRESHOLD = 0.85
+    
+    AUTO_LINK_THRESHOLD = 150.0
+    CLERICAL_REVIEW_THRESHOLD = 80.0
 
-    # 2. Iterate and score fuzzy matches
+    # 2. Iterate and score probabilistic weights
     for golden in all_golden_records:
-        score_first_name = compute_similarity(raw_record.first_name, golden.first_name)
-        score_last_name = compute_similarity(raw_record.last_name, golden.last_name)
-        score_email = compute_similarity(raw_record.email, golden.email)
+        score = 0
+        
+        # Probabilistic weights (Scaled by 10)
+        W_FIRST_NAME_A = 100
+        W_FIRST_NAME_D = -40
+        W_LAST_NAME_A = 120
+        W_LAST_NAME_D = -40
+        W_EMAIL_A = 160
+        W_EMAIL_D = -35
+        W_PHONE_A = 140
+        W_PHONE_D = -30
 
-        # Dynamic weighting based on values populated
+        # First Name
+        if raw_record.first_name and golden.first_name:
+             sim = compute_similarity(raw_record.first_name, golden.first_name)
+             if sim > 0.95: score += W_FIRST_NAME_A
+             elif sim > 0.80: score += W_FIRST_NAME_A // 2
+             else: score += W_FIRST_NAME_D
+
+        # Last Name
+        if raw_record.last_name and golden.last_name:
+             sim = compute_similarity(raw_record.last_name, golden.last_name)
+             if sim > 0.95: score += W_LAST_NAME_A
+             elif sim > 0.80: score += W_LAST_NAME_A // 2
+             else: score += W_LAST_NAME_D
+
+        # Email
         if raw_record.email and golden.email:
-             # email weights 50%, names 25% each
-             total_score = (score_email * 0.50) + (score_first_name * 0.25) + (score_last_name * 0.25)
-        else:
-             # names weight 50% each if email missing
-             total_score = (score_first_name * 0.50) + (score_last_name * 0.50)
+             sim = compute_similarity(raw_record.email, golden.email)
+             if sim > 0.95: score += W_EMAIL_A
+             elif sim > 0.85: score += W_EMAIL_A // 2
+             else: score += W_EMAIL_D
 
-        if total_score > highest_match_score:
-             highest_match_score = total_score
+        # Phone
+        if raw_record.phone and golden.phone:
+             sim = compute_similarity(raw_record.phone, golden.phone)
+             if sim > 0.95: score += W_PHONE_A
+             elif sim > 0.85: score += W_PHONE_A // 2
+             else: score += W_PHONE_D
+
+        if score > highest_match_score:
+             highest_match_score = score
              best_golden_record = golden
 
-    # 3. IF MATCH ABOVE THRESHOLD: Apply Survivorship rules
-    if best_golden_record and highest_match_score >= MATCH_THRESHOLD:
+    # 3. IF MATCH ABOVE AUTO-LINK THRESHOLD: Apply Survivorship rules
+    if best_golden_record and highest_match_score >= AUTO_LINK_THRESHOLD:
         golden_record = best_golden_record
         
         all_raw_links = db.query(RawCustomerData).filter(
@@ -76,14 +106,14 @@ def match_and_merge_customer(db: Session, raw_id: str) -> str:
         best_recency = raw_sorted_by_recency[0]
         golden_record.phone = best_recency.phone or golden_record.phone
 
-        # Scale down confidence score if match wasn't perfect
-        golden_record.confidence_score = (golden_record.confidence_score + highest_match_score) / 2
+        golden_record.confidence_score = (golden_record.confidence_score * 0.7) + (0.3 * (highest_match_score / 300.0))
         golden_record.updated_at = datetime.utcnow()
         
         db.add(golden_record)
         db.commit()
         
         raw_record.golden_id = golden_record.golden_id
+        raw_record.match_score = highest_match_score
         db.add(raw_record)
         db.commit()
         return golden_record.golden_id
@@ -107,6 +137,7 @@ def match_and_merge_customer(db: Session, raw_id: str) -> str:
         
         # Link raw to new Golden
         raw_record.golden_id = new_golden.golden_id
+        raw_record.match_score = highest_match_score # Save if tie score or low score
         db.add(raw_record)
         db.commit()
         

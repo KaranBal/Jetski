@@ -1,0 +1,443 @@
+:root {
+    --bg-dark: #07090f;
+    --card-bg: rgba(13, 17, 23, 0.7);
+    --border-color: rgba(255, 255, 255, 0.08);
+    --text-primary: #f0f6fc;
+    --text-secondary: #8b949e;
+    --accent-glow: #00ffaa;
+    --accent-cyan: #00d4ff;
+    --accent-purple: #ab47bc;
+    --buy-great: #00ff88;
+    --buy-good: #ffd400;
+    --buy-sp500: #ff3366;
+    --blur-strong: blur(16px);
+    --shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+body {
+    background-color: var(--bg-dark);
+    color: var(--text-primary);
+    overflow-x: hidden;
+    min-height: 100vh;
+}
+
+/* 🪐 Atmospheric Background Orbs */
+.glow-backdrop {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: radial-gradient(circle at 10% 20%, rgba(0, 212, 255, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 90% 80%, rgba(171, 71, 188, 0.05) 0%, transparent 50%);
+    z-index: -2;
+}
+
+.glow-orb {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.15;
+    z-index: -1;
+    animation: orbFloat 20s infinite alternate ease-in-out;
+}
+
+#orb-1 { top: -100px; left: 10%; width: 300px; height: 300px; background: var(--accent-cyan); }
+#orb-2 { bottom: -150px; right: 10%; width: 400px; height: 400px; background: var(--accent-purple); }
+#orb-3 { top: 40%; left: 60%; width: 250px; height: 250px; background: var(--accent-glow); animation-duration: 15s; }
+
+@keyframes orbFloat {
+    0% { transform: translateY(0) scale(1); }
+    100% { transform: translateY(40px) scale(1.1); }
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* 🧭 Navbar Glass UI */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 24px;
+    background: rgba(13, 17, 23, 0.5);
+    backdrop-filter: var(--blur-strong);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    margin-bottom: 40px;
+    top: 20px;
+    position: sticky;
+    z-index: 100;
+    box-shadow: var(--shadow);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.logo-mark {
+    font-size: 1.5rem;
+    filter: drop-shadow(0 0 8px var(--accent-cyan));
+}
+
+.logo-text {
+    font-family: 'Cabinet Grotesk', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+}
+
+.logo-text span {
+    color: var(--accent-cyan);
+    background: linear-gradient(90deg, var(--accent-cyan), var(--accent-glow));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.nav-links {
+    display: flex;
+    gap: 24px;
+}
+
+.nav-link {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.nav-link:hover, .nav-link.active {
+    color: var(--text-primary);
+}
+
+.header-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    background: rgba(255, 255, 255, 0.05);
+    padding: 6px 12px;
+    border-radius: 20px;
+}
+
+.status-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+}
+
+.status-dot.green {
+    background-color: var(--accent-glow);
+    box-shadow: 0 0 10px var(--accent-glow);
+}
+
+/* 📦 Typography Titles */
+.main-title {
+    font-family: 'Cabinet Grotesk', sans-serif;
+    font-size: 3rem;
+    font-weight: 800;
+    margin-bottom: 12px;
+    background: linear-gradient(120deg, var(--text-primary) 30%, var(--accent-cyan));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.subtitle {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    margin-bottom: 40px;
+    max-width: 600px;
+}
+
+/* 📦 Glass Cards Control Grid */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 40px;
+}
+
+.card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: var(--shadow);
+    transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(255, 255, 255, 0.15);
+}
+
+.glass {
+    backdrop-filter: var(--blur-strong);
+}
+
+h2 {
+    font-family: 'Cabinet Grotesk', sans-serif;
+    font-size: 1.25rem;
+    margin-bottom: 24px;
+    color: var(--accent-cyan);
+}
+
+/* 📊 Stats Grid View */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+}
+
+.stat-item {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 16px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.02);
+}
+
+.stat-label {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.stat-value {
+    font-family: 'Cabinet Grotesk', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--text-primary);
+}
+
+/* 📥 Inline Ingestion Form */
+.inline-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    align-items: end;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+label {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+input, textarea {
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--border-color);
+    padding: 14px 16px;
+    border-radius: 12px;
+    color: var(--text-primary);
+    font-size: 1rem;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+input:focus, textarea:focus {
+    border-color: var(--accent-cyan);
+    box-shadow: 0 0 15px rgba(0, 212, 255, 0.15);
+    background: rgba(0, 0, 0, 0.3);
+}
+
+textarea {
+    resize: vertical;
+    min-height: 120px;
+    font-family: 'Inter', sans-serif;
+    line-height: 1.5;
+}
+
+.btn {
+    padding: 14px 24px;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.primary-btn {
+    background: linear-gradient(135deg, var(--accent-cyan), var(--accent-glow));
+    color: #000;
+    box-shadow: 0 4px 20px rgba(0, 212, 255, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.primary-btn::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: rgba(255,255,255,0.1);
+    transform: rotate(45deg);
+    transition: all 0.5s ease;
+    pointer-events: none;
+}
+
+.primary-btn:hover::after {
+    left: 120%;
+}
+
+.primary-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 25px rgba(0, 212, 255, 0.4);
+}
+
+/* 🧪 Evaluation Consoles */
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.btn-sm {
+    padding: 8px 16px;
+    font-size: 0.85rem;
+}
+
+.btn-outline {
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+}
+
+.btn-outline:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: var(--text-primary);
+}
+
+.analysis-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 24px;
+}
+
+/* 📉 Analysis Display Card (Dynamic Nodes) */
+.eval-card {
+    position: relative;
+    overflow: hidden;
+}
+
+.eval-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; width: 4px; height: 100%;
+}
+
+.eval-card.buy-great::before { background: var(--buy-great); }
+.eval-card.buy-good::before { background: var(--buy-good); }
+.eval-card.buy-sp500::before { background: var(--buy-sp500); }
+
+.eval-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.ticker-box {
+    display: flex;
+    flex-direction: column;
+}
+
+.ticker-name {
+    font-family: 'Cabinet Grotesk', sans-serif;
+    font-size: 1.5rem;
+    color: var(--text-primary);
+}
+
+.company-name {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+.badge {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.buy-great .badge { background: rgba(0, 255, 136, 0.15); color: var(--buy-great); }
+.buy-good .badge { background: rgba(255, 212, 0, 0.15); color: var(--buy-good); }
+.buy-sp500 .badge { background: rgba(255, 51, 102, 0.15); color: var(--buy-sp500); }
+
+.metrics-strip {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.metric-line {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.metric-line span:last-child {
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.narrative {
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: var(--text-secondary);
+    padding-top: 15px;
+    border-top: 1px dashed var(--border-color);
+}
+
+.empty-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 60px 20px;
+}
+
+.empty-icon {
+    font-size: 3rem;
+    margin-bottom: 20px;
+    opacity: 0.3;
+}
+
+.empty-state h3 {
+    font-family: 'Cabinet Grotesk', sans-serif;
+    margin-bottom: 12px;
+    color: var(--text-primary);
+}
+
+.empty-state p {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}

@@ -96,7 +96,7 @@ async function fetchGoldenRecords() {
                 <td><strong>${record.first_name || '-'} ${record.last_name || '-'}</strong></td>
                 <td>${record.email || '<span class="mute">-</span>'}</td>
                 <td>${record.phone || '<span class="mute">-</span>'}</td>
-                <td><span class="score-badge success-bg">${(record.confidence_score * 100).toFixed(0)}%</span></td>
+                <td><span class="score-badge ${(record.confidence_score > 0.8) ? 'success-bg' : 'warning-bg'}">${(record.confidence_score * 300).toFixed(0)}</span></td>
                 <td><small>${new Date(record.updated_at).toLocaleTimeString()}</small></td>
              </tr>`;
              tableBody.innerHTML += row;
