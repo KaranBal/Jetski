@@ -95,7 +95,7 @@ def main():
     training_args = GRPOConfig(
         output_dir=args.output_dir,
         num_train_epochs=args.num_epochs,
-        per_device_train_batch_size=args.batch_size,
+        per_device_train_batch_size=args.batch_size if args.batch_size else 16, # Increased for B200 scale
         learning_rate=args.learning_rate,
         remove_unused_columns=False,
         save_strategy="steps",
@@ -108,7 +108,7 @@ def main():
         use_vllm=True,
         vllm_backend="vllm", # Use vLLM for rollout generation
         # Distributed Training / deepspeed setting
-        # deepspeed="ds_config.json" # add deepspeed config if scaling
+        deepspeed="ds_config.json" # add deepspeed config if scaling
     )
 
     trainer = GRPOTrainer(

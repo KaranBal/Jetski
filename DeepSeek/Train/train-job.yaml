@@ -31,22 +31,22 @@ spec:
         imagePullPolicy: Always
         
         command: ["/bin/bash", "-c"]
-        # Executing torchrun with 4 workers for multi-GPU training (matching L4 count)
+        # Executing torchrun with 8 workers for multi-GPU training (matching B200 count per node)
         args:
           - |
-            torchrun --nproc_per_node=4 train_grpo.py \
+            torchrun --nproc_per_node=8 train_grpo.py \
               --model_name_or_path "deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B" \
               --dataset_path "/gcs/your-bucket-name/dataset.json" \
               --output_dir "/gcs/your-bucket-name/checkpoints" \
-              --batch_size 4
+              --batch_size 16
               
         resources:
           limits:
-            nvidia.com/gpu: 4 # Number of GPUs requested
+            nvidia.com/gpu: 8 # Number of GPUs requested (Scale to 8 per node)
           requests:
-            cpu: "8"
-            memory: "32Gi"
-            nvidia.com/gpu: 4
+            cpu: "16" # Scale CPU for B200
+            memory: "64Gi"
+            nvidia.com/gpu: 8
 
         volumeMounts:
         - name: gcs-fuse-mount
