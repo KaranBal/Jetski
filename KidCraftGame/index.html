@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BlockCraft Jr. by Jetski</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <!-- Super fun playful fonts for kids -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Outfit:wght@300;600;900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="game-container"></div>
+    
+    <div id="crosshair"></div>
+
+    <!-- UI Overlay -->
+    <div id="ui-overlay" class="glass">
+        <div class="menu-content">
+            <h1>🎨 BlockCraft Jr.</h1>
+            <p>A magical 3D building world created just for you by Jetski!</p>
+            
+            <div class="controls-guide">
+                <div class="control-item"><span>W, A, S, D</span> Move Around</div>
+                <div class="control-item"><span>Arrow Keys</span> Look Around</div>
+                <div class="control-item"><span>Enter</span> Break Block</div>
+                <div class="control-item"><span>Space</span> Place Block</div>
+                <div class="control-item"><span>E</span> Jump</div>
+            </div>
+
+            <button class="play-btn" id="start-btn">🚀 Enter World!</button>
+        </div>
+    </div>
+
+    <!-- Magic Command Modal -->
+    <div id="cmd-modal" class="glass" style="display: none;">
+        <div class="cmd-content">
+            <span class="cmd-icon">🔮</span>
+            <input type="text" id="cmd-input" placeholder="Enter a build (castle, house, beach)...">
+            <div id="cmd-loading" style="display: none; font-family: 'Fredoka', sans-serif; font-size: 1.1rem; color: #38bdf8; font-weight: 600; margin-top: 8px;">🪄 Conjuring your creation...</div>
+            <span class="cmd-hint">Press Enter to Build</span>
+        </div>
+    </div>
+
+    <!-- Inventory / Toolbar -->
+    <div id="toolbar" class="glass">
+        <div class="hotbar">
+            <button class="hotbar-item active" data-block="grass">
+                <span class="block-icon grass-icon"></span>
+                <span class="label">Grass</span>
+            </button>
+            <button class="hotbar-item" data-block="wood">
+                <span class="block-icon wood-icon"></span>
+                <span class="label">Wood</span>
+            </button>
+            <button class="hotbar-item" data-block="stone">
+                <span class="block-icon stone-icon"></span>
+                <span class="label">Stone</span>
+            </button>
+            <button class="hotbar-item" data-block="leaves">
+                <span class="block-icon leaves-icon"></span>
+                <span class="label">Leaves</span>
+            </button>
+            <button class="hotbar-item" data-block="water">
+                <span class="block-icon water-icon"></span>
+                <span class="label">Water</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Load library via unpkg (reliable for older r128 with PointerLock) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    
+    <!-- Game Source -->
+    <script src="structures.js"></script>
+    <script src="game.js"></script>
+</body>
+</html>

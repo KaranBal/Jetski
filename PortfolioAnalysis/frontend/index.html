@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PortfolioAnalysis | Deep Tracking AI Intelligence</title>
+    <meta name="description" content="Production-grade AI agent that parses your Google Finance portfolio and generates deep short, medium, and long term investment theses.">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <!-- Modern typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="glow-sphere sphere-1"></div>
+    <div class="glow-sphere sphere-2"></div>
+
+    <div class="app-container">
+        <aside class="sidebar glass">
+            <div class="logo">
+                <span class="gradient-text">Nova</span>Finance
+            </div>
+            <nav>
+                <button class="nav-item active" data-tab="dashboard">
+                    <span class="icon">📊</span> Dashboard
+                </button>
+                <button class="nav-item" data-tab="upload">
+                    <span class="icon">📤</span> Import
+                </button>
+                <button class="nav-item" data-tab="recommendations">
+                    <span class="icon">🛠️</span> Tools & Apps
+                </button>
+            </nav>
+            <div class="sidebar-footer">
+                <span class="status-indicator online"></span> Agent Deep Research Active
+            </div>
+        </aside>
+
+        <main class="content-area">
+            <!-- Dashboard Tab -->
+            <section id="dashboard" class="tab-content active">
+                <header class="dashboard-header">
+                    <h1>Portfolio Intelligence</h1>
+                    <p class="subtitle">AI synthesis of earnings, news, and market sentiment.</p>
+                </header>
+
+                <div class="overview-grid">
+                    <div class="stat-card glass">
+                        <div class="stat-header">
+                            <h3>Portfolio Score</h3>
+                            <span class="badge tier-a" id="portfolio-tier">N/A</span>
+                        </div>
+                        <div class="stat-val" id="portfolio-rating">No Data</div>
+                        <div class="stat-footer" id="portfolio-narrative">Upload CSV to begin analysis.</div>
+                    </div>
+
+                    <div class="stat-card glass">
+                        <div class="stat-header">
+                            <h3>Total Assets</h3>
+                        </div>
+                        <div class="stat-val" id="total-assets">0</div>
+                        <div class="stat-footer">Tracked positions</div>
+                    </div>
+                </div>
+
+                <div class="main-split">
+                    <div class="company-list-section glass">
+                        <h2>Monitored Positions</h2>
+                        <div class="bulk-actions-bar">
+                            <label class="checkbox-container">
+                                <input type="checkbox" id="select-all">
+                                <span class="checkmark"></span>
+                            </label>
+                            <span class="select-label">Select All</span>
+                            <div class="bulk-btns">
+                                <button class="small-btn" id="bulk-analyze-btn">Analyze Selected</button>
+                                <button class="small-btn danger-btn" id="bulk-delete-btn">Delete Selected</button>
+                            </div>
+                        </div>
+                        <div class="list-container" id="companies-list">
+                            <div class="loading">No positions loaded. Use Import tab.</div>
+                        </div>
+                    </div>
+
+                    <div class="analysis-panel glass" id="active-analysis">
+                        <h2>Deep Thesis Research</h2>
+                        <div class="placeholder-analysis">
+                            <span class="icon-large">🔍</span>
+                            <p>Select a company to view deep research thesis.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Upload Tab -->
+            <section id="upload" class="tab-content">
+                <header class="dashboard-header">
+                    <h1>Import Portfolio</h1>
+                    <p class="subtitle">Upload your Google Finance CSV export.</p>
+                </header>
+
+                <div class="upload-zone glass">
+                    <div class="upload-icon">📁</div>
+                    <p>Drag and drop or click to upload CSV</p>
+                    <input type="file" id="csv-file" accept=".csv">
+                    <button class="primary-btn" id="upload-btn">Process CSV</button>
+                    <div id="upload-status"></div>
+                </div>
+
+                <div class="format-hint glass">
+                    <h3>CSV Format Reference</h3>
+                    <p>Ensure your CSV has columns for <code>Ticker</code>, <code>Name</code>, <code>Quantity</code>.</p>
+                </div>
+            </section>
+
+            <!-- Recommendations Tab -->
+            <section id="recommendations" class="tab-content">
+                <header class="dashboard-header">
+                    <h1>Must Own Applications</h1>
+                    <p class="subtitle">Elite software tools discovered during research runs.</p>
+                </header>
+
+                <div class="tools-grid" id="tools-container">
+                    <div class="placeholder-tools">
+                        <p>Run deep research on companies to discover recommended tools.</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

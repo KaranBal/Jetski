@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pacman Reborn | Jetski Arcade</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&family=Press+Start+2P&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="game-container">
+        <!-- Canvas -->
+        <canvas id="pacman-canvas"></canvas>
+
+        <!-- UI Overlays -->
+        <div id="ui-layer">
+            <div id="score-board">
+                <div class="stat-box glass">
+                    <span class="stat-label">SCORE</span>
+                    <span id="score-val" class="stat-value">000000</span>
+                </div>
+                <div class="stat-box glass">
+                    <span class="stat-label">HIGH SCORE</span>
+                    <span id="high-score-val" class="stat-value">004200</span>
+                </div>
+                <div class="stat-box glass">
+                    <span class="stat-label">LIVES</span>
+                    <div id="lives-container" class="lives-icons">
+                        <span class="life-icon">🟡</span>
+                        <span class="life-icon">🟡</span>
+                        <span class="life-icon">🟡</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Start Panel -->
+            <div id="start-panel" class="overlay-modal glass">
+                <h1 class="neon-title">PACMAN</h1>
+                <p class="subtitle">Neon Arcade</p>
+                <div class="controls-guide">
+                    <p>⌨️ Move: <b>W, A, S, D / Arrows</b></p>
+                    <p>🕹️ Collect dots, eat ghosts!</p>
+                </div>
+                <button id="play-btn" class="classic-btn">INSERT COIN</button>
+            </div>
+
+            <!-- Game Over Panel -->
+            <div id="game-over-panel" class="overlay-modal glass" style="display: none;">
+                <h1 class="neon-title text-red">GAME OVER</h1>
+                <p id="final-score" class="subtitle">Final Score: 0</p>
+                <button id="restart-btn" class="classic-btn">TRY AGAIN?</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="maze.js"></script>
+    <script src="ghosts.js"></script>
+    <script src="game.js"></script>
+</body>
+</html>
